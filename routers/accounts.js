@@ -3,6 +3,8 @@ const client = require('../plaid/config')
 const Item = require('../models/item')
 const Account = require('../models/account')
 
+
+// ITEM router to add new Institution
 router.get('/api/get-link-token', async (req, res) => {
    try {
       const tokenResponse = await client.createLinkToken({
@@ -61,6 +63,7 @@ router.post('/api/get-access-token', async (req, res) => {
    }
 })
 
+// Account routes
 router.get('/api/accounts', async (req, res) => {
    try {
       const accounts = await Account.find({ owner: req.user._id })
@@ -68,9 +71,23 @@ router.get('/api/accounts', async (req, res) => {
       accounts.forEach(account => {
          data[account.type] ? data[account.type].push(account) : data[account.type] = [account]
       })
-      res.status(200).send(data)
+      const sortedData = Object.keys(data).sort().reduce((obj, key) => (obj[key] = data[key], obj), {})
+      res.status(200).send(sortedData)
    } catch (error) {
-      res.status(404).send({ error })
+      res.status(500).send({ error })
+   }
+})
+
+router.patch('/api/accounts/:id', async (req, res) => {
+   try {
+      const account = await Account.findOne({ _id: req.params.id, owner: req.user._id })
+      if (!account) res.status(404).send('No account found')
+      account.nickname = req.body.nickname
+      account.type = req.body.type
+      await account.save()
+      res.status(200).send()
+   } catch (error) {
+      res.status(500).send({ error })
    }
 })
 

@@ -42,9 +42,7 @@ router.get('/api/logout', async (req, res) => {
 router.patch('/api/change-password', async (req, res) => {
    try {
       const { currentPassword, newPassword } = req.body
-      console.log(req.user.password)
       const isMatch = await bcrypt.compare(currentPassword, req.user.password)
-      console.log(isMatch)
       if (!isMatch) throw new Error('Your current password is incorrect.')
       req.user.password = newPassword
       await req.user.save()
