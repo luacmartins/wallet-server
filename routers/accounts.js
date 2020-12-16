@@ -91,4 +91,17 @@ router.patch('/api/accounts/:id', async (req, res) => {
    }
 })
 
+router.delete('/api/accounts/:id', async (req, res) => {
+   try {
+      const account = await Account.findOne({ _id: req.params.id, owner: req.user._id })
+      const item = await Item.findOne({ _id: account.item })
+      await client.removeItem(item.accessToken)
+      await Account.deleteMany({ item })
+      await item.delete()
+      res.status(200).send()
+   } catch (error) {
+      res.status(500).send(error)
+   }
+})
+
 module.exports = router
