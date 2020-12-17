@@ -5,8 +5,10 @@ const mongoose = require('mongoose')
 
 // import routers
 const userRouter = require('./routers/user')
+const linkRouter = require('./routers/link')
 const categoryRouter = require('./routers/category')
 const accountsRouter = require('./routers/accounts')
+const transactionsRouter = require('./routers/transactions')
 
 // import middleware
 const cors = require('cors')
@@ -36,7 +38,9 @@ app.use(auth)
 // private endpoints go here
 app.use(userRouter)
 app.use(categoryRouter)
+app.use(linkRouter)
 app.use(accountsRouter)
+app.use(transactionsRouter)
 
 app.listen(port, () => {
    console.log('server running')
