@@ -92,11 +92,13 @@ const createTransactions = async (id, token, item) => {
    const data = await client.getTransactions(token, dateStart, dateEnd, {})
    data.transactions.forEach(async el => {
       const account = await Account.findOne({ accountId: el.account_id })
+      console.log(account.type)
       const transaction = new Transaction({
          owner: id,
          item: item._id,
          accountId: el.account_id,
          account: account.name,
+         accountType: account.type,
          transactionId: el.transaction_id,
          pending: el.pending,
          amount: -el.amount,

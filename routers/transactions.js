@@ -1,9 +1,12 @@
 const router = require('express').Router()
 const Transaction = require('../models/transaction')
+const applyFilter = require('../utils/applyFilter')
+const getFilterList = require('../utils/getFilterList')
 
-router.get('/api/transactions', async (req, res) => {
+router.get('/api/transactions/', async (req, res) => {
    try {
-      const transactions = await Transaction.find({ owner: req.user._id })
+      const filter = applyFilter(req.query)
+      const transactions = await Transaction.find({ owner: req.user._id, ...filter })
       const data = { 'pending': [], 'posted': [] }
       transactions.forEach(item => {
          if (item.pending) data['pending'].push(item)
@@ -24,5 +27,16 @@ router.patch('/api/transactions/:id', async (req, res) => {
       res.status(500).send()
    }
 })
+
+// get filters
+router.get('/api/filters', async (req, res) => {
+   try {
+      const list = await getFilterList(req.user._id)
+      res.status(200).send(list)
+   } catch (error) {
+
+   }
+})
+
 
 module.exports = router

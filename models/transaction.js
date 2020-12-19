@@ -13,6 +13,7 @@ const transactionSchema = new mongoose.Schema({
    },
    accountId: { type: String, required: true },
    account: { type: String, required: true },
+   accountType: { type: String, required: true },
    transactionId: { type: String, required: true },
    pending: { type: Boolean, required: true },
    amount: { type: Number, required: true },
