@@ -1,9 +1,14 @@
 const applyFilters = (query) => {
    const filter = {}
+
    if (!query) return filter
 
    // Apply search
-
+   if (query.search) {
+      const re = new RegExp(query.search, 'i')
+      // filter = { $text: { $search: query.search } }
+      filter['description.user'] = re
+   }
 
    // Apply selection filter
    const selection = ['account', 'accountType', 'category']
@@ -18,7 +23,7 @@ const applyFilters = (query) => {
    // Apply date filter
 
    // Apply amount filter
-
+   console.log(filter)
    return filter
 }
 
