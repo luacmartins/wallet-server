@@ -6,7 +6,6 @@ const applyFilters = (query) => {
    // Apply search
    if (query.search) {
       const re = new RegExp(query.search, 'i')
-      // filter = { $text: { $search: query.search } }
       filter['description.user'] = re
    }
 
@@ -21,9 +20,23 @@ const applyFilters = (query) => {
    })
 
    // Apply date filter
+   if (query.startDate) {
+      filter['date.user'] = { $gte: query.startDate }
+   }
+
+   if (query.endDate) {
+      filter['date.user'] = { ...filter['date.user'], $lte: query.endDate }
+   }
 
    // Apply amount filter
-   console.log(filter)
+   if (query.minAmount) {
+      filter['amount'] = { $gte: query.minAmount }
+   }
+
+   if (query.maxAmount) {
+      filter['amount'] = { ...filter['amount'], $lte: query.maxAmount }
+   }
+
    return filter
 }
 

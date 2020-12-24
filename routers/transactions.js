@@ -6,12 +6,15 @@ const getFilterList = require('../utils/getFilterList')
 router.get('/api/transactions/', async (req, res) => {
    try {
       const filter = applyFilter(req.query)
-      const transactions = await Transaction.find({ owner: req.user._id, ...filter })
+      // const transactions = await Transaction.find({ owner: req.user._id, ...filter })
+      const transactions = await Transaction.paginate({ owner: req.user._id, ...filter }, { limit: 30, page: req.query.page })
       const data = { 'pending': [], 'posted': [] }
-      transactions.forEach(item => {
+      transactions.docs.forEach(item => {
          if (item.pending) data['pending'].push(item)
          else data['posted'].push(item)
       })
+      res.set('x-total-pages', transactions.pages)
+      res.set('Access-Control-Expose-Headers', 'x-total-pages')
       res.status(200).send(data)
    } catch (error) {
       res.status(500).send()

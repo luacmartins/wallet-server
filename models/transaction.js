@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const mongoosePaginate = require('mongoose-paginate')
 
 const transactionSchema = new mongoose.Schema({
    owner: {
@@ -27,6 +28,8 @@ const transactionSchema = new mongoose.Schema({
    },
    category: { type: String, required: true }
 })
+
+transactionSchema.plugin(mongoosePaginate)
 
 const transaction = mongoose.model('Transaction', transactionSchema)
 

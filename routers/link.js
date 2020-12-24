@@ -86,13 +86,12 @@ const createAccounts = async (id, accounts, item) => {
 
 
 const createTransactions = async (id, token, item) => {
-   const dateStart = moment().subtract(10, 'day').format('YYYY-MM-DD')
+   const dateStart = moment().subtract(2, 'years').format('YYYY-MM-DD')
    const dateEnd = moment().format('YYYY-MM-DD')
 
    const data = await client.getTransactions(token, dateStart, dateEnd, {})
    data.transactions.forEach(async el => {
       const account = await Account.findOne({ accountId: el.account_id })
-      console.log(account.type)
       const transaction = new Transaction({
          owner: id,
          item: item._id,
