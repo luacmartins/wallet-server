@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 
 // import routers
 const userRouter = require('./routers/user')
-const linkRouter = require('./routers/link')
+const plaidRouter = require('./routers/plaid')
 const categoryRouter = require('./routers/category')
 const accountsRouter = require('./routers/accounts')
 const transactionsRouter = require('./routers/transactions')
@@ -38,7 +38,7 @@ app.use(auth)
 // private endpoints go here
 app.use(userRouter)
 app.use(categoryRouter)
-app.use(linkRouter)
+app.use(plaidRouter)
 app.use(accountsRouter)
 app.use(transactionsRouter)
 
