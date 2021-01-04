@@ -11,7 +11,6 @@ const createAndUpdateTransactions = async (itemId, count) => {
    const { owner, accessToken } = item
 
    const data = await client.getTransactions(accessToken, startDate, endDate, { count })
-
    data.transactions.forEach(async el => {
       const account = await Account.findOne({ accountId: el.account_id })
 

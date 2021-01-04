@@ -16,6 +16,7 @@ const accountSchema = new mongoose.Schema({
    nickname: { type: String, required: true },
    name: { type: String, required: true },
    balance: { type: Number, required: true },
+   needsUpdate: { type: Boolean, required: true, default: false }
 })
 
 const account = mongoose.model('Account', accountSchema)

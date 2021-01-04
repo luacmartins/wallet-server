@@ -6,8 +6,12 @@ const Account = require('../models/account')
 const createAccounts = require('../utils/createAccounts')
 const createAndUpdateTransactions = require('../utils/createAndUpdateTransactions')
 const deleteTransactions = require('../utils/deleteTransactions')
+const deleteItem = require('../utils/deleteItem')
+const updateItem = require('../utils/updateItem')
 
 // LINK ITEM ROUTES
+
+// Get public token
 router.get('/api/get-link-token', async (req, res) => {
    try {
       const tokenResponse = await client.createLinkToken({
@@ -26,6 +30,36 @@ router.get('/api/get-link-token', async (req, res) => {
    }
 })
 
+// Update item
+router.post('/api/get-link-token', async (req, res) => {
+   const item = await Item.findOne({ _id: req.body.item })
+   try {
+      const tokenResponse = await client.createLinkToken({
+         user: {
+            client_user_id: req.user._id
+         },
+         client_name: 'Wallet',
+         country_codes: ['US'],
+         language: 'en',
+         webhook: process.env.WEBHOOK_URL,
+         access_token: item.accessToken
+      })
+      res.send({ link_token: tokenResponse.link_token })
+   } catch (error) {
+      return res.send({ error: error.message })
+   }
+})
+
+router.post('/api/update-item', async (req, res) => {
+   try {
+      const item = await Item.findOne({ _id: req.body.item })
+      await updateItem({ item, needsUpdate: false })
+   } catch (error) {
+      return res.send({ error: error.message })
+   }
+})
+
+// Get access token
 router.post('/api/get-access-token', async (req, res) => {
    try {
       const publicToken = req.body.token
@@ -68,11 +102,14 @@ router.post('/api/webhook', async (req, res) => {
       if (asset === 'ITEM') {
          switch (code) {
             case 'ERROR':
-               console.log('error')
+               updateItem({ itemId, needsUpdate: true })
+               break
             case 'PENDING_EXPIRATION':
-               console.log('error')
+               updateItem({ itemId, needsUpdate: true })
+               break
             case 'USER_PERMISSION_REVOKED':
-               console.log('error')
+               deleteItem(itemId)
+               break
             default:
                break
          }

@@ -16,6 +16,11 @@ const itemSchema = new mongoose.Schema({
       required: true,
       unique: true
    },
+   needsUpdate: {
+      type: Boolean,
+      required: true,
+      default: false
+   }
 })
 
 const item = mongoose.model('Item', itemSchema)
