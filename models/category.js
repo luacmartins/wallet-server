@@ -14,6 +14,11 @@ const categorySchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: 'User'
+   },
+   canEdit: {
+      type: Boolean,
+      required: true,
+      default: true
    }
 })
 

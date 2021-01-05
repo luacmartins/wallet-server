@@ -4,6 +4,22 @@ const Item = require('../models/item')
 const Account = require('../models/account')
 const Transaction = require('../models/transaction')
 
+const mapCategories = {
+   'Bank Fees': 'Miscellanea',
+   'Cash Advance': 'Miscellanea',
+   'Community': 'Miscellanea',
+   'Food and Drink': 'Food and Drink',
+   'Healthcare': 'Health',
+   'Interest': 'Miscellanea',
+   'Payment': 'Transfer',
+   'Recreation': 'Entertainment',
+   'Service': 'Housing',
+   'Shops': 'Shopping',
+   'Tax': 'Miscellanea',
+   'Transfer': 'Transfer',
+   'Travel': 'Travel'
+}
+
 const createAndUpdateTransactions = async (itemId, count) => {
    const startDate = moment().subtract(3, 'years').format('YYYY-MM-DD')
    const endDate = moment().format('YYYY-MM-DD')
@@ -33,7 +49,7 @@ const createAndUpdateTransactions = async (itemId, count) => {
             original: el.date,
             user: el.date
          },
-         category: el.category[0]
+         category: mapCategories[el.category[0]]
       }
 
       await Transaction.findOneAndUpdate(query, update, options)

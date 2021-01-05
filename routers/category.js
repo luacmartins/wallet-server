@@ -1,7 +1,6 @@
 const router = require('express').Router()
 const Category = require('../models/category')
 
-
 // Create category route
 router.post('/api/category', async (req, res) => {
    try {

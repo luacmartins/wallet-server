@@ -1,12 +1,14 @@
 const router = require('express').Router()
 const bcrypt = require('bcrypt')
 const User = require('../models/user')
+const createDefaultCategories = require('../utils/createDefaultCategories')
 
 // Sign up route
 router.post('/api/signup', async (req, res) => {
    try {
       const user = new User(req.body)
       await user.save()
+      createDefaultCategories(user._id)
       const token = await user.generateAuthToken()
       res.status(201).json({ user: user.name, token })
    } catch (error) {
