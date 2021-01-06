@@ -10,14 +10,16 @@ const lookup = {
 
 const createAccounts = async (id, accounts, item) => {
    accounts.forEach(async (account) => {
-      let newAccount = new Account({
+      const type = lookup[account.type]
+      const balance = type === 'Credit_cards' || type === 'Loans' ? -account.balances.current : account.balances.current
+      const newAccount = new Account({
          owner: id,
          item,
          accountId: account.account_id,
-         type: lookup[account.type],
+         type,
          nickname: account.name,
          name: account.official_name || account.name,
-         balance: account.balances.current,
+         balance,
          currency: account.iso_currency_code
       })
       await newAccount.save()

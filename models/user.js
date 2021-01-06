@@ -36,6 +36,8 @@ const userSchema = new mongoose.Schema({
          required: true
       }
    }]
+}, {
+   timestamps: true
 })
 
 // create virtual link to other DB models
