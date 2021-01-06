@@ -10,6 +10,7 @@ const categoryRouter = require('./routers/category')
 const accountsRouter = require('./routers/accounts')
 const transactionsRouter = require('./routers/transactions')
 const dashboardRouter = require('./routers/dashboard')
+const trendsRouter = require('./routers/trends')
 
 // import middleware
 const cors = require('cors')
@@ -43,6 +44,7 @@ app.use(plaidRouter)
 app.use(accountsRouter)
 app.use(transactionsRouter)
 app.use(dashboardRouter)
+app.use(trendsRouter)
 
 app.listen(port, () => {
    console.log('server running')

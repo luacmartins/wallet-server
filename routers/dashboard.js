@@ -1,6 +1,4 @@
 const router = require('express').Router()
-const client = require('../plaid/config')
-const Item = require('../models/item')
 const Account = require('../models/account')
 const Transaction = require('../models/transaction')
 
@@ -23,7 +21,7 @@ router.get('/api/dashboard', async (req, res) => {
       const dashboardTransactions = await getDashboardTransactions(req.user._id)
 
       // Net Worth
-      const numDays = getNumDays(transactions, req.query.period)
+      const [numDays] = getNumDays(req.query.period, transactions)
       const networth = await getNetWorth(accounts, transactions, numDays)
 
       const data = {
