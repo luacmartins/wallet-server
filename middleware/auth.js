@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 const User = require('../models/user')
 
-const publicRoutes = ['/api/login', '/api/signup']
+const publicRoutes = ['/api/login', '/api/signup', 'api/webhook']
 
 const auth = async (req, res, next) => {
    try {
