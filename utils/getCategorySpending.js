@@ -8,7 +8,7 @@ const getCategorySpending = async (allTransactions, averageDailySpending, numDay
       category = transaction.category
       amount = transaction.amount
 
-      if (category !== 'Transfer') {
+      if (category !== 'Transfer' && amount < 0) {
          data[category] ? data[category] += amount : data[category] = amount
       }
    })
@@ -19,7 +19,7 @@ const getCategorySpending = async (allTransactions, averageDailySpending, numDay
 
    return {
       summary: {
-         total: Math.abs(total),
+         total: Math.abs(periodTotal),
          percent
       },
       series,
