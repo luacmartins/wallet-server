@@ -1,8 +1,7 @@
-const Transaction = require('../models/transaction')
-
-const getDashboardTransactions = async (owner) => {
-   const pending = await Transaction.find({ owner, pending: true }).limit(5)
-   const posted = await Transaction.find({ owner, pending: false }).limit(5)
+const getDashboardTransactions = (owner, transactions) => {
+   const max = transactions.slice(0, 10)
+   const pending = max.filter(item => item.pending).slice(0, 5)
+   const posted = max.filter(item => !item.pending).slice(0, 5)
    return ({ pending, posted })
 }
 

@@ -18,7 +18,7 @@ router.get('/api/dashboard', async (req, res) => {
       const accountsSummary = getAccountTypeSummary(accounts)
 
       // Latest transactions
-      const dashboardTransactions = await getDashboardTransactions(req.user._id)
+      const dashboardTransactions = getDashboardTransactions(transactions)
 
       // Net Worth
       const [numDays] = getNumDays(req.query.period, transactions)
