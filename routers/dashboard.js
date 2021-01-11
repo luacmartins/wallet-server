@@ -14,7 +14,7 @@ router.get('/api/dashboard', async (req, res) => {
 
       // Accounts summary
       const accounts = await Account.find({ owner: req.user._id })
-      const transactions = await Transaction.find({ owner: req.user._id })
+      const transactions = await Transaction.find({ owner: req.user._id }, null, { sort: { 'date.user': -1 } })
       const accountsSummary = getAccountTypeSummary(accounts)
 
       // Latest transactions
