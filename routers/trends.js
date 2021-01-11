@@ -11,7 +11,7 @@ const getOvertimeSpending = require('../utils/getOvertimeSpending')
 router.get('/api/trends', async (req, res) => {
    try {
       // get avg spending data
-      const transactions = await Transaction.find({ owner: req.user._id })
+      const transactions = await Transaction.find({ owner: req.user._id }, null, { sort: { 'date.user': -1 } })
       const averageDailySpending = getAverageDailySpending(transactions)
       const average = Object.keys(averageDailySpending).map(key => ({
          category: key,
