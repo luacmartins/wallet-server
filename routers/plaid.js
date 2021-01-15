@@ -122,25 +122,25 @@ router.post('/api/webhook', async (req, res) => {
 
          switch (code) {
             case 'INITIAL_UPDATE':
-               createAndUpdateTransactions(itemId, count)
-               getDashboard(itemId)
-               getTrends(itemId)
+               await createAndUpdateTransactions(itemId, count)
+               await getDashboard(itemId)
+               await getTrends(itemId)
                break
             case 'HISTORICAL_UPDATE':
-               createAndUpdateTransactions(itemId, count)
-               getDashboard(itemId)
-               getTrends(itemId)
+               await createAndUpdateTransactions(itemId, count)
+               await getDashboard(itemId)
+               await getTrends(itemId)
                break
             case 'DEFAULT_UPDATE':
-               createAndUpdateTransactions(itemId, count)
-               getDashboard(itemId)
-               getTrends(itemId)
+               await createAndUpdateTransactions(itemId, count)
+               await getDashboard(itemId)
+               await getTrends(itemId)
                break
             case 'TRANSACTIONS_REMOVED':
                const removedTransactions = req.body.removed_transactions
-               deleteTransactions(itemId, removedTransactions)
-               getDashboard(itemId)
-               getTrends(itemId)
+               await deleteTransactions(itemId, removedTransactions)
+               await getDashboard(itemId)
+               await getTrends(itemId)
                break
             default:
                break
