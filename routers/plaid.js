@@ -8,6 +8,8 @@ const createAndUpdateTransactions = require('../utils/createAndUpdateTransaction
 const deleteTransactions = require('../utils/deleteTransactions')
 const deleteItem = require('../utils/deleteItem')
 const updateItem = require('../utils/updateItem')
+const getDashboard = require('../utils/getDashboard')
+const getTrends = require('../utils/getTrends')
 
 // LINK ITEM ROUTES
 
@@ -117,18 +119,29 @@ router.post('/api/webhook', async (req, res) => {
 
       if (asset === 'TRANSACTIONS') {
          const count = req.body.new_transactions
+
          switch (code) {
             case 'INITIAL_UPDATE':
                createAndUpdateTransactions(itemId, count)
+               getDashboard(itemId)
+               getTrends(itemId)
                break
             case 'HISTORICAL_UPDATE':
                createAndUpdateTransactions(itemId, count)
+               getDashboard(itemId)
+               getTrends(itemId)
                break
             case 'DEFAULT_UPDATE':
                createAndUpdateTransactions(itemId, count)
+               getDashboard(itemId)
+               getTrends(itemId)
+               break
             case 'TRANSACTIONS_REMOVED':
                const removedTransactions = req.body.removed_transactions
                deleteTransactions(itemId, removedTransactions)
+               getDashboard(itemId)
+               getTrends(itemId)
+               break
             default:
                break
          }

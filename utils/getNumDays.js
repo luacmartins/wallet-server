@@ -1,7 +1,6 @@
 const moment = require('moment')
 
-const getNumDays = (period, transactions) => {
-   const today = moment()
+const getNumDays = (period, allTimeDate) => {
    let startDate
 
    switch (period) {
@@ -12,8 +11,7 @@ const getNumDays = (period, transactions) => {
          startDate = moment().startOf('year').format('YYYY-MM-DD')
          break
       case 'ALL':
-         const len = transactions.length
-         startDate = transactions[len - 1].date.user
+         startDate = allTimeDate
          break
       default:
          let [qty, unit] = period.split('')
@@ -21,7 +19,7 @@ const getNumDays = (period, transactions) => {
          unit === 'M' ? unit = 'months' : unit = 'years'
          startDate = moment().subtract(qty, unit).format('YYYY-MM-DD')
    }
-   return [today.diff(startDate, 'days'), startDate]
+   return { startDate, numDays: moment().diff(startDate, 'days') }
 }
 
 module.exports = getNumDays

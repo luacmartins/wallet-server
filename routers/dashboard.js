@@ -1,34 +1,14 @@
 const router = require('express').Router()
-const Account = require('../models/account')
-const Transaction = require('../models/transaction')
 
 // import helper functions
-const getAccountTypeSummary = require('../utils/getAccountTypeSummary.js')
-const getDashboardTransactions = require('../utils/getDashboardTransactions')
-const getNetWorth = require('../utils/getNetWorth')
 const getNumDays = require('../utils/getNumDays')
 
 router.get('/api/dashboard', async (req, res) => {
    try {
-      // needs to update account balances every day!!!
-
-      // Accounts summary
-      const accounts = await Account.find({ owner: req.user._id })
-      const transactions = await Transaction.find({ owner: req.user._id }, null, { sort: { 'date.user': -1 } })
-      const accountsSummary = getAccountTypeSummary(accounts)
-
-      // Latest transactions
-      const dashboardTransactions = getDashboardTransactions(transactions)
-
-      // Net Worth
-      const [numDays] = getNumDays(req.query.period, transactions)
-      const networth = await getNetWorth(accounts, transactions, numDays)
-
-      const data = {
-         accounts: accountsSummary,
-         transactions: dashboardTransactions,
-         networth
-      }
+      const data = req.user.dashboard
+      const { startDate } = getNumDays(req.query.period, data.allTimeDate)
+      const series = data.networth.series.filter(item => item.date > startDate)
+      data.networth.series = series
 
       res.status(200).send(data)
    } catch (error) {

@@ -27,9 +27,8 @@ const userSchema = new mongoose.Schema({
       trim: true,
       minlength: 8
    },
-   categories: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category' }],
-   institutions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Institution' }],
-   accounts: [],
+   dashboard: {},
+   trends: {},
    tokens: [{
       token: {
          type: String,
