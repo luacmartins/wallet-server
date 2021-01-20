@@ -10,9 +10,10 @@ router.post('/api/signup', async (req, res) => {
       await user.save()
       createDefaultCategories(user._id)
       const token = await user.generateAuthToken()
+      if (!token) throw new Error('Unable to sign up.')
       res.status(201).json({ user: user.name, token })
    } catch (error) {
-      res.status(404).json(error)
+      res.status(400).send({ error: error.message })
    }
 })
 
@@ -22,9 +23,10 @@ router.post('/api/login', async (req, res) => {
       const { email, password } = req.body
       const user = await User.authenticate(email, password)
       const token = await user.generateAuthToken()
+      if (!user) throw new Error('Could not login')
       res.send({ user: user.name, token })
    } catch (error) {
-      res.status(400).send({ message: 'Invalid credentials' })
+      res.status(400).send({ error: error.message })
    }
 })
 

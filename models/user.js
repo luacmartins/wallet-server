@@ -27,8 +27,12 @@ const userSchema = new mongoose.Schema({
       trim: true,
       minlength: 8
    },
-   dashboard: {},
-   trends: {},
+   dashboard: {
+      type: Object
+   },
+   trends: {
+      type: Object
+   },
    tokens: [{
       token: {
          type: String,
