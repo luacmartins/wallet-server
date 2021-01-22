@@ -11,6 +11,7 @@ router.get('/api/dashboard', async (req, res) => {
       const { startDate } = getNumDays(req.query.period, data.allTimeDate)
       const series = data.networth.series.filter(item => item.date > startDate)
       data.networth.series = series
+      data.networth.summary.change = series[series.length - 1].amount - series[0].amount
 
       res.status(200).send(data)
    } catch (error) {

@@ -16,12 +16,10 @@ const getNetWorth = async (accounts, transactions, numDays) => {
       startAmount = amount
    }
 
-   const change = amount - series.filter(item => item.date === moment().subtract(numDays, 'days').format('YYYY-MM-DD'))[0].amount
-
    return ({
       summary: {
          amount,
-         change
+         change: 0
       },
       series: series.reverse(),
       timeframe: [{ label: '3M' }, { label: '6M' }, { label: '1Y' }, { label: '3Y' }, { label: 'ALL' }]
